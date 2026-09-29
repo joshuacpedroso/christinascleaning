@@ -13,12 +13,14 @@
     document.body.classList.add("is-loaded");
     document.body.classList.remove("is-loading");
   };
-  const minShow = reduceMotion ? 0 : 1300;
+  const skipIntro = reduceMotion || !$(".loader") || document.documentElement.classList.contains("no-loader");
+  const minShow = skipIntro ? 0 : 1300;
+  try { sessionStorage.setItem("ccs-intro", "1"); } catch (e) { /* storage unavailable */ }
   const start = performance.now();
   window.addEventListener("load", () => {
     setTimeout(finishLoading, Math.max(0, minShow - (performance.now() - start)));
   });
-  setTimeout(finishLoading, 3500); // safety net on slow connections
+  setTimeout(finishLoading, skipIntro ? 600 : 3500); // safety net on slow connections
 
   /* ---------- Year ---------- */
   const year = $("#year");
@@ -310,6 +312,7 @@
 
   /* ---------- Form ---------- */
   if (form) {
+    if (form.dataset.defaultService && serviceSelect) serviceSelect.value = form.dataset.defaultService;
     const errorBox = $(".form__error", form);
     const success = $(".form__success");
     const phone = form.elements.phone;
@@ -358,6 +361,7 @@
 
       const data = Object.fromEntries(new FormData(form).entries());
       delete data._honey;
+      data.page = document.title + " (" + location.pathname + ")";
       form.classList.add("is-sending");
       try {
         const res = await fetch(form.dataset.endpoint, {

@@ -8,7 +8,9 @@ to any static host (Vercel, Netlify, GitHub Pages, Hostinger, etc).
 
 ## Structure
 
-- `index.html` - single page (hero with estimate form, before/after sliders, services, about, areas, FAQ)
+- `index.html` - home page (hero with estimate form, before/after sliders, services, about, areas, FAQ)
+- `services/*/index.html`, `areas/*/index.html`, `404.html`, `sitemap.xml` - **generated** by
+  `python3 tools/build_pages.py` (see below)
 - `assets/css/style.css` - styles
 - `assets/js/main.js` - loader, sparkles, before/after sliders, animations, form submit
 - `assets/img/` - logo, photos and `results/` before/after pairs
@@ -24,3 +26,24 @@ To change the destination, edit `data-endpoint` on `#quote-form` in `index.html`
 
 Export both photos with the same size to `assets/img/results/` and copy one of the
 `<figure class="ba">` blocks in `index.html`.
+
+## SEO pages
+
+Service and city pages are generated from the data in `tools/build_pages.py`. The icon sprite,
+header, estimate form, final CTA and footer are copied from `index.html` (between the
+`<!-- @name:start -->` / `<!-- @name:end -->` markers), so after changing any of those in
+`index.html`, or any page text in the script, run:
+
+```
+python3 tools/build_pages.py
+```
+
+Other SEO files: `robots.txt`, `sitemap.xml`, `site.webmanifest`, `llms.txt`, `.htaccess`
+(HTTPS + non-www redirects, caching, 404 page on Apache hosting) and `vercel.json`
+(keeps the `*.vercel.app` preview out of Google).
+
+## After going live
+
+1. Google Search Console: add `christinascleaningservices.com` and submit `/sitemap.xml`.
+2. Google Business Profile: create/verify it as a service-area business (Lewes, Rehoboth Beach,
+   Millsboro) with the same name, phone and website as the site.

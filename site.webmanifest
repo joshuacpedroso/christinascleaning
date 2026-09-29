@@ -1,0 +1,13 @@
+{
+  "name": "Christina's Cleaning Services",
+  "short_name": "Christina's",
+  "description": "Residential & commercial cleaning in Sussex County, DE.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#fdf7fa",
+  "theme_color": "#2B0A1F",
+  "icons": [
+    { "src": "/assets/img/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/assets/img/favicon.png", "sizes": "64x64", "type": "image/png" }
+  ]
+}
