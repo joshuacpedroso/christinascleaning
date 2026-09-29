@@ -1,7 +1,7 @@
 # Christina's Cleaning Services
 
 Website for Christina's Cleaning Services, residential & commercial cleaning in Sussex County, DE
-(Lewes, Rehoboth Beach, Millsboro).
+(Lewes, Rehoboth Beach, Millsboro) and Salisbury, MD.
 
 Static site (HTML + CSS + vanilla JS, no build step). Open `index.html` or deploy the folder
 to any static host (Vercel, Netlify, GitHub Pages, Hostinger, etc).
@@ -45,5 +45,5 @@ Other SEO files: `robots.txt`, `sitemap.xml`, `site.webmanifest`, `llms.txt`, `.
 ## After going live
 
 1. Google Search Console: add `christinascleaningservices.com` and submit `/sitemap.xml`.
-2. Google Business Profile: create/verify it as a service-area business (Lewes, Rehoboth Beach,
-   Millsboro) with the same name, phone and website as the site.
+2. Google Business Profile: create/verify it as a service-area business (Salisbury MD, Lewes,
+   Rehoboth Beach, Millsboro) with the same name, phone and website as the site.

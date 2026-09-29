@@ -58,6 +58,7 @@ SERVICES = {
     "post-construction-cleaning": ("Post-Construction", "i-hardhat", "Fine dust and residue removed after renovations."),
 }
 AREAS = {
+    "salisbury-md": ("Salisbury, MD", "Salisbury"),
     "lewes-de": ("Lewes, DE", "Lewes"),
     "rehoboth-beach-de": ("Rehoboth Beach, DE", "Rehoboth Beach"),
     "millsboro-de": ("Millsboro, DE", "Millsboro"),
@@ -184,7 +185,7 @@ def page(p):
 <section class="section commercial">
   <div class="container commercial__grid">
     <div class="commercial__media" data-reveal>
-      <div class="commercial__img commercial__img--a"><img src="/assets/img/commercial-office.webp" alt="Christina's team cleaning a modern office in Sussex County, DE" loading="lazy" width="550" height="860"></div>
+      <div class="commercial__img commercial__img--a"><img src="/assets/img/commercial-office.webp" alt="Christina's team cleaning a modern office in Maryland and Delaware" loading="lazy" width="550" height="860"></div>
       <div class="commercial__img commercial__img--b"><img src="/assets/img/commercial-pharmacy.webp" alt="Christina's team cleaning a pharmacy" loading="lazy" width="540" height="1140"></div>
     </div>
     <div class="commercial__copy" data-reveal style="--d:.1s">
@@ -213,8 +214,8 @@ def page(p):
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
   <link rel="canonical" href="{url}">
   <meta name="theme-color" content="#2B0A1F">
-  <meta name="geo.region" content="US-DE">
-  <meta name="geo.placename" content="{p.get("geo", "Sussex County, Delaware")}">
+  <meta name="geo.region" content="{p.get("geo_region", "US-MD")}">
+  <meta name="geo.placename" content="{p.get("geo", "Salisbury, Maryland")}">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_US">
@@ -337,8 +338,11 @@ def area_related():
 
 
 def sussex():
-    return [{"@type": "City", "name": n, "containedInPlace": {"@type": "AdministrativeArea", "name": "Sussex County, Delaware"}}
-            for n in ("Lewes", "Rehoboth Beach", "Millsboro")] + [{"@type": "AdministrativeArea", "name": "Sussex County, Delaware"}]
+    """Every place we serve: Salisbury, MD plus the Sussex County, DE towns."""
+    return ([{"@type": "City", "name": "Salisbury", "containedInPlace": {"@type": "AdministrativeArea", "name": "Wicomico County, Maryland"}}]
+            + [{"@type": "City", "name": n, "containedInPlace": {"@type": "AdministrativeArea", "name": "Sussex County, Delaware"}}
+               for n in ("Lewes", "Rehoboth Beach", "Millsboro")]
+            + [{"@type": "AdministrativeArea", "name": "Sussex County, Delaware"}])
 
 
 A = lambda slug, text: f'<a href="/services/{slug}/">{text}</a>'
@@ -348,17 +352,17 @@ PAGES = [
     # ------------------------------------------------------------------ SERVICES
     dict(
         path="/services/residential-cleaning/",
-        title="House Cleaning Services in Sussex County, DE | Christina's",
-        desc="Weekly, bi-weekly & monthly house cleaning in Lewes, Rehoboth Beach & Millsboro, DE. Detail-oriented, insured team and eco-friendly products. Free estimate.",
+        title="Residential Cleaning Salisbury MD & Sussex DE | Christina's",
+        desc="Weekly, bi-weekly & monthly house cleaning in Salisbury, MD and Lewes, Rehoboth Beach & Millsboro, DE. Insured, detail-oriented team. Free estimate.",
         crumbs=[("Services", "/#services"), ("Residential Cleaning", "/services/residential-cleaning/")],
         service_name="Residential House Cleaning", service_type="House cleaning", area_served=sussex(),
         form_service="Residential Cleaning",
-        h1=("House Cleaning Services", "in Sussex County, DE"),
+        h1=("House Cleaning Services", "in Maryland &amp; Delaware"),
         script="Clean home, happy life.",
-        lead="Recurring and one-time house cleaning for homes in Lewes, Rehoboth Beach, Millsboro and across Sussex County. Kitchens, bathrooms, bedrooms and living areas, cleaned with the detail you'd expect from the owner herself.",
+        lead="Recurring and one-time house cleaning for homes in Salisbury, MD and in Lewes, Rehoboth Beach, Millsboro and across Sussex County, DE. Kitchens, bathrooms, bedrooms and living areas, cleaned with the detail you'd expect from the owner herself.",
         cta2="What's included",
         body=f'''      <h2>Your home, <em>consistently spotless</em></h2>
-      <p>Life in Sussex County is busy, between work, family, the beach and everything in between. Christina's residential cleaning takes the chores off your list so you can come home to a space that feels calm, fresh and cared for.</p>
+      <p>Life on Delmarva is busy, between work, family, the beach and everything in between. Christina's residential cleaning takes the chores off your list so you can come home to a space that feels calm, fresh and cared for.</p>
       <p>Every visit follows a detailed checklist, and every home is different, so we tailor the service to what matters most to you. Want extra attention on the kitchen, the kids' bathroom or the pet hair on the stairs? Just tell us.</p>
       <h3>Recurring plans that fit your routine</h3>
       <p>Most families choose <strong>weekly</strong> or <strong>bi-weekly</strong> house cleaning to keep things under control, while others prefer a <strong>monthly</strong> refresh. You pick the frequency and day, and we show up ready to work.</p>
@@ -366,7 +370,7 @@ PAGES = [
       <p>If your home hasn't been professionally cleaned in a while, we often recommend starting with a {A("deep-cleaning", "deep cleaning")}. It resets the whole house, so your recurring visits keep it spotless from then on.</p>
       <h3>Kind to kids, pets and the planet</h3>
       <p>We use eco-friendly products that are tough on dirt and gentle on the people and pets who live in your home.</p>
-      <p>Serving {AR("lewes-de", "Lewes")}, {AR("rehoboth-beach-de", "Rehoboth Beach")}, {AR("millsboro-de", "Millsboro")} and nearby communities.</p>''',
+      <p>Serving {AR("salisbury-md", "Salisbury, MD")}, {AR("lewes-de", "Lewes")}, {AR("rehoboth-beach-de", "Rehoboth Beach")}, {AR("millsboro-de", "Millsboro")} and nearby communities.</p>''',
         checklist=[
             ("Kitchen", ["Countertops &amp; backsplash wiped", "Sink &amp; faucet cleaned and shined", "Appliance exteriors &amp; microwave", "Cabinet fronts &amp; handles", "Floors vacuumed &amp; mopped"]),
             ("Bathrooms", ["Tub, shower &amp; tile scrubbed", "Toilet cleaned inside &amp; out", "Sinks, vanity &amp; mirrors", "Floors &amp; baseboards"]),
@@ -385,12 +389,12 @@ PAGES = [
     ),
     dict(
         path="/services/deep-cleaning/",
-        title="Deep Cleaning Services in Sussex County, DE | Christina's",
-        desc="Top-to-bottom deep cleaning in Lewes, Rehoboth Beach & Millsboro, DE: grout, baseboards, window tracks, vents and every corner. Insured team. Free estimate.",
+        title="Deep Cleaning Salisbury MD & Sussex County DE | Christina's",
+        desc="Top-to-bottom deep cleaning in Salisbury, MD and Sussex County, DE: grout, baseboards, window tracks, vents and every corner. Insured team. Free estimate.",
         crumbs=[("Services", "/#services"), ("Deep Cleaning", "/services/deep-cleaning/")],
         service_name="Deep Cleaning", service_type="Deep cleaning", area_served=sussex(),
         form_service="Deep Cleaning",
-        h1=("Deep Cleaning Services", "in Sussex County, DE"),
+        h1=("Deep Cleaning Services", "in Maryland &amp; Delaware"),
         script="Every corner. Every detail.",
         lead="A complete reset for your home. We go after the grout, baseboards, window tracks, vents and hidden spots that regular cleanings skip, so your home feels truly clean again.",
         cta2="See the deep clean checklist",
@@ -418,18 +422,18 @@ PAGES = [
     ),
     dict(
         path="/services/commercial-cleaning/",
-        title="Commercial Cleaning in Sussex County, DE | Christina's",
-        desc="Office, pharmacy and retail cleaning in Lewes, Rehoboth Beach & Millsboro, DE. Daily, weekly or custom schedules. Licensed & insured. Free estimate.",
+        title="Commercial Cleaning Salisbury MD & Sussex DE | Christina's",
+        desc="Office, pharmacy and retail cleaning in Salisbury, MD and Sussex County, DE. Daily, weekly or custom schedules. Licensed & insured. Free estimate.",
         crumbs=[("Services", "/#services"), ("Commercial Cleaning", "/services/commercial-cleaning/")],
         service_name="Commercial Cleaning", service_type="Commercial cleaning", area_served=sussex(),
-        form_service="Commercial Cleaning", geo="Sussex County, Delaware",
-        h1=("Commercial Cleaning", "in Sussex County, DE"),
+        form_service="Commercial Cleaning",
+        h1=("Commercial Cleaning", "in Maryland &amp; Delaware"),
         script="A cleaner workspace. A better business.",
         lead="Offices, pharmacies, retail stores and workspaces kept clean, healthy and welcoming, on a daily, weekly or custom schedule that never gets in the way of your business.",
         cta2="What we clean",
         body=f'''      <h2>Clean spaces. <em>Strong impressions.</em></h2>
       <p>Your customers and employees notice everything, from the entrance glass to the restroom. Christina's commercial cleaning keeps your business looking professional and feeling healthy, every single day.</p>
-      <p>We work with offices, pharmacies, retail stores and other workspaces across Sussex County. Our uniformed, trained team follows a consistent checklist, so you get the same high standard on every visit.</p>
+      <p>We work with offices, pharmacies, retail stores and other workspaces in Salisbury, MD and across Sussex County, DE. Our uniformed, trained team follows a consistent checklist, so you get the same high standard on every visit.</p>
       <h3>Flexible scheduling</h3>
       <p>Choose <strong>daily</strong>, <strong>weekly</strong> or a <strong>custom</strong> plan. Tell us your business hours and we'll build a schedule that keeps your space clean without disrupting your team or your customers.</p>
       <h3>Licensed, insured and reliable</h3>
@@ -443,7 +447,7 @@ PAGES = [
         gallery="From busy offices to pharmacies and retail floors, our team keeps your space ready for customers and comfortable for your staff, on a schedule built around your business.",
         faq_title="Commercial cleaning <em>questions</em>",
         faq=[
-            ("What types of businesses do you clean?", "We clean offices, pharmacies, retail stores and other commercial spaces across Sussex County, Delaware."),
+            ("What types of businesses do you clean?", "We clean offices, pharmacies, retail stores and other commercial spaces in Salisbury, Maryland and across Sussex County, Delaware."),
             ("How often can you clean my business?", "We offer daily, weekly and custom cleaning plans, built around your hours and the needs of your space."),
             ("Are you licensed and insured?", "Yes. Christina's Cleaning Services is fully licensed and insured."),
             ("How do I get a commercial cleaning quote?", f"Use the form on this page or call {PHONE}. Tell us about your space and how often you need cleaning, and we'll send a free, no-obligation estimate."),
@@ -453,12 +457,12 @@ PAGES = [
     ),
     dict(
         path="/services/move-in-move-out-cleaning/",
-        title="Move In & Move Out Cleaning in Sussex County, DE | Christina's",
-        desc="Move-in and move-out cleaning in Lewes, Rehoboth Beach & Millsboro, DE. Cabinets, appliances, bathrooms and floors, ready for the next chapter. Free estimate.",
+        title="Move In/Out Cleaning Salisbury MD & Sussex DE | Christina's",
+        desc="Move-in and move-out cleaning in Salisbury, MD and Sussex County, DE. Cabinets, appliances, bathrooms and floors, ready for the next chapter. Free estimate.",
         crumbs=[("Services", "/#services"), ("Move In / Move Out", "/services/move-in-move-out-cleaning/")],
         service_name="Move In / Move Out Cleaning", service_type="Move-out cleaning", area_served=sussex(),
         form_service="Move In / Move Out",
-        h1=("Move In &amp; Move Out Cleaning", "in Sussex County, DE"),
+        h1=("Move In &amp; Move Out Cleaning", "in Maryland &amp; Delaware"),
         script="Let us handle the mess!",
         lead="Moving is stressful enough. We make sure the home you're leaving is ready for inspection and the home you're moving into is fresh, clean and ready for you.",
         cta2="See the checklist",
@@ -467,7 +471,7 @@ PAGES = [
       <h3>For tenants, homeowners, landlords and realtors</h3>
       <p>Whether you want your deposit back, need a rental ready for the next guest or tenant, or want a listing to shine for showings, we'll leave the home spotless.</p>
       <h3>Tips for booking</h3>
-      <p>Move-out cleanings work best once the home is empty. Book as early as you can, especially at the end of the month and during the busy summer season in coastal Delaware.</p>
+      <p>Move-out cleanings work best once the home is empty. Book as early as you can, especially at the end of the month and during the busy summer season on the Delmarva coast.</p>
       <p>Staying put but need a reset? Try a {A("deep-cleaning", "deep cleaning")} instead.</p>''',
         checklist=[
             ("Kitchen", ["Inside cabinets &amp; drawers", "Appliances cleaned inside &amp; out", "Countertops, sink &amp; backsplash", "Floors vacuumed &amp; mopped"]),
@@ -487,19 +491,19 @@ PAGES = [
     ),
     dict(
         path="/services/post-construction-cleaning/",
-        title="Post-Construction Cleaning in Sussex County, DE | Christina's",
-        desc="Post-construction and renovation cleaning in Lewes, Rehoboth Beach & Millsboro, DE. Fine dust, residue and debris removed so your space is move-in ready.",
+        title="Post-Construction Cleaning Salisbury MD & DE | Christina's",
+        desc="Post-construction and renovation cleaning in Salisbury, MD and Sussex County, DE. Fine dust, residue and debris removed so your space is move-in ready.",
         crumbs=[("Services", "/#services"), ("Post-Construction", "/services/post-construction-cleaning/")],
         service_name="Post-Construction Cleaning", service_type="Post-construction cleaning", area_served=sussex(),
         form_service="Post-Construction",
-        h1=("Post-Construction Cleaning", "in Sussex County, DE"),
+        h1=("Post-Construction Cleaning", "in Maryland &amp; Delaware"),
         script="From dusty to dazzling.",
         lead="Renovation finished? We remove the fine dust, stickers, residue and debris that builders leave behind, so your new kitchen, bathroom or business can finally shine.",
         cta2="What's included",
         body=f'''      <h2>The final step of <em>every project</em></h2>
       <p>Construction dust gets everywhere: on top of cabinets, inside drawers, along window tracks and deep into vents. Christina's post-construction cleaning gets your space from job site to move-in ready.</p>
       <h3>Homes and businesses</h3>
-      <p>We clean after kitchen and bathroom remodels, additions, new builds and commercial build-outs across Sussex County. Homeowners, builders and property managers all count on us for the finishing touch.</p>
+      <p>We clean after kitchen and bathroom remodels, additions, new builds and commercial build-outs in Salisbury, MD and across Sussex County, DE. Homeowners, builders and property managers all count on us for the finishing touch.</p>
       <h3>When to book</h3>
       <p>Schedule your cleaning once the trades have finished their work. That way the dust has settled and we can leave everything spotless in one visit.</p>
       <p>Opening a business in a newly renovated space? Keep it clean with our {A("commercial-cleaning", "commercial cleaning")} plans.</p>''',
@@ -520,11 +524,44 @@ PAGES = [
     ),
     # ------------------------------------------------------------------ AREAS
     dict(
+        path="/areas/salisbury-md/",
+        title="House Cleaning in Salisbury, MD | Christina's Cleaning",
+        desc="Trusted house cleaning and commercial cleaning in Salisbury, MD 21801 & 21804. Recurring, deep, move-out and post-construction cleaning. Free estimate.",
+        crumbs=[("Areas", "/#areas"), ("Salisbury, MD", "/areas/salisbury-md/")],
+        service_name="House Cleaning in Salisbury, MD", service_type="House cleaning", geo="Salisbury, Maryland", geo_region="US-MD",
+        area_served=[{"@type": "City", "name": "Salisbury", "postalCode": ["21801", "21804"], "containedInPlace": {"@type": "AdministrativeArea", "name": "Wicomico County, Maryland"}}],
+        h1=("House Cleaning", "in Salisbury, MD"),
+        script="Clean home, happy life.",
+        lead="Maryland-based residential and commercial cleaning for homes and businesses in Salisbury. Busy families, homeowners, landlords and local businesses count on Christina's team for a spotless space.",
+        cta2="Our services in Salisbury",
+        body=f'''      <h2>Salisbury's <em>hometown</em> cleaning team</h2>
+      <p>Christina's Cleaning Services is a Maryland business, and Salisbury is home turf. As the largest city on Maryland's Eastern Shore, Salisbury keeps us busy with family homes, rentals, offices and shops, and we bring the same premium standard to every one of them.</p>
+      <p>From weekly upkeep for busy households to move-out cleanings at the end of a lease, our detail-obsessed team leaves your space fresh, clean and ready to enjoy.</p>
+      <h3>Cleaning services in Salisbury, MD</h3>
+      <p>{A("residential-cleaning", "Recurring house cleaning")}, {A("deep-cleaning", "deep cleaning")}, {A("move-in-move-out-cleaning", "move in / move out cleaning")}, {A("post-construction-cleaning", "post-construction cleaning")} and {A("commercial-cleaning", "commercial cleaning")} for Salisbury offices, shops and businesses.</p>
+      <h3>From Maryland to the Delaware beaches</h3>
+      <p>Besides Salisbury, we also serve {AR("lewes-de", "Lewes")}, {AR("rehoboth-beach-de", "Rehoboth Beach")}, {AR("millsboro-de", "Millsboro")} and surrounding Sussex County, Delaware.</p>''',
+        checklist=[
+            ("Popular in Salisbury", ["Recurring house cleaning", "Move in / move out cleaning", "Deep cleaning", "Post-construction cleaning", "Office &amp; retail cleaning"]),
+            ("Why Salisbury chooses us", ["Local, Maryland-based business", "Licensed &amp; insured", "Eco-friendly products", "Satisfaction guaranteed"]),
+        ],
+        results=["toilet", "table"], results_title="Real results for <em>Salisbury homes</em>",
+        faq_title="Cleaning in Salisbury: <em>questions</em>",
+        faq=[
+            ("Do you offer house cleaning in Salisbury, MD?", "Yes. Christina's Cleaning Services is based in Maryland and provides recurring, one-time and deep house cleaning throughout Salisbury, MD 21801 and 21804."),
+            ("Do you clean businesses in Salisbury?", "Yes. We offer commercial cleaning for offices, retail stores and other local businesses in Salisbury on daily, weekly or custom schedules."),
+            ("Do you do move-out cleaning for rentals in Salisbury?", "Yes. Our move in / move out cleaning helps tenants, landlords and property managers get Salisbury homes and apartments ready for the next move."),
+            ("How do I get a quote in Salisbury?", f"Fill out the free estimate form on this page or call {PHONE}. Estimates are fast, easy and no obligation."),
+        ],
+        related_title="Cleaning services <em>in Salisbury</em>",
+        related=svc_related("")[:4],
+    ),
+    dict(
         path="/areas/lewes-de/",
         title="House Cleaning in Lewes, DE | Christina's Cleaning Services",
         desc="Trusted house cleaning and commercial cleaning in Lewes, DE 19958. Recurring, deep, move-out and post-construction cleaning. Licensed & insured. Free estimate.",
         crumbs=[("Areas", "/#areas"), ("Lewes, DE", "/areas/lewes-de/")],
-        service_name="House Cleaning in Lewes, DE", service_type="House cleaning", geo="Lewes, Delaware",
+        service_name="House Cleaning in Lewes, DE", service_type="House cleaning", geo="Lewes, Delaware", geo_region="US-DE",
         area_served=[{"@type": "City", "name": "Lewes", "postalCode": "19958", "containedInPlace": {"@type": "AdministrativeArea", "name": "Sussex County, Delaware"}}],
         h1=("House Cleaning", "in Lewes, DE"),
         script="We clean. You shine.",
@@ -536,7 +573,7 @@ PAGES = [
       <h3>Cleaning services in Lewes, DE</h3>
       <p>{A("residential-cleaning", "Weekly and bi-weekly house cleaning")}, {A("deep-cleaning", "deep cleaning")}, {A("move-in-move-out-cleaning", "move in / move out cleaning")}, {A("post-construction-cleaning", "post-construction cleaning")} and {A("commercial-cleaning", "commercial cleaning")} for local offices and shops.</p>
       <h3>Nearby areas</h3>
-      <p>We also serve {AR("rehoboth-beach-de", "Rehoboth Beach")}, {AR("millsboro-de", "Millsboro")} and surrounding Sussex County communities.</p>''',
+      <p>We also serve {AR("rehoboth-beach-de", "Rehoboth Beach")}, {AR("millsboro-de", "Millsboro")}, surrounding Sussex County communities and {AR("salisbury-md", "Salisbury, MD")}.</p>''',
         checklist=[
             ("Popular in Lewes", ["Recurring house cleaning", "Deep cleaning", "Move in / move out cleaning", "Post-construction cleaning", "Office &amp; retail cleaning"]),
             ("Why Lewes chooses us", ["Licensed &amp; insured", "Eco-friendly products", "Detail-oriented, reliable team", "Satisfaction guaranteed"]),
@@ -557,7 +594,7 @@ PAGES = [
         title="House Cleaning in Rehoboth Beach, DE | Christina's Cleaning",
         desc="House cleaning and commercial cleaning in Rehoboth Beach, DE 19971. Beach homes, deep cleans, move-outs and local businesses. Insured team. Free estimate.",
         crumbs=[("Areas", "/#areas"), ("Rehoboth Beach, DE", "/areas/rehoboth-beach-de/")],
-        service_name="House Cleaning in Rehoboth Beach, DE", service_type="House cleaning", geo="Rehoboth Beach, Delaware",
+        service_name="House Cleaning in Rehoboth Beach, DE", service_type="House cleaning", geo="Rehoboth Beach, Delaware", geo_region="US-DE",
         area_served=[{"@type": "City", "name": "Rehoboth Beach", "postalCode": "19971", "containedInPlace": {"@type": "AdministrativeArea", "name": "Sussex County, Delaware"}}],
         h1=("House Cleaning", "in Rehoboth Beach, DE"),
         script="Beach days, clean nights.",
@@ -569,7 +606,7 @@ PAGES = [
       <h3>Cleaning services in Rehoboth Beach, DE</h3>
       <p>{A("residential-cleaning", "Recurring house cleaning")}, {A("deep-cleaning", "deep cleaning")}, {A("move-in-move-out-cleaning", "move in / move out cleaning")}, {A("post-construction-cleaning", "post-construction cleaning")} and {A("commercial-cleaning", "commercial cleaning")} for Rehoboth offices, shops and businesses.</p>
       <h3>Nearby areas</h3>
-      <p>We also serve {AR("lewes-de", "Lewes")}, {AR("millsboro-de", "Millsboro")} and surrounding Sussex County communities.</p>''',
+      <p>We also serve {AR("lewes-de", "Lewes")}, {AR("millsboro-de", "Millsboro")}, surrounding Sussex County communities and {AR("salisbury-md", "Salisbury, MD")}.</p>''',
         checklist=[
             ("Popular in Rehoboth Beach", ["Beach house cleaning", "Recurring house cleaning", "Deep cleaning", "Move in / move out cleaning", "Commercial &amp; retail cleaning"]),
             ("Why Rehoboth chooses us", ["Licensed &amp; insured", "Eco-friendly products", "Flexible scheduling", "Satisfaction guaranteed"]),
@@ -590,7 +627,7 @@ PAGES = [
         title="House Cleaning in Millsboro, DE | Christina's Cleaning",
         desc="House cleaning and commercial cleaning in Millsboro, DE 19966. Recurring, deep, move-out and post-construction cleaning. Licensed & insured. Free estimate.",
         crumbs=[("Areas", "/#areas"), ("Millsboro, DE", "/areas/millsboro-de/")],
-        service_name="House Cleaning in Millsboro, DE", service_type="House cleaning", geo="Millsboro, Delaware",
+        service_name="House Cleaning in Millsboro, DE", service_type="House cleaning", geo="Millsboro, Delaware", geo_region="US-DE",
         area_served=[{"@type": "City", "name": "Millsboro", "postalCode": "19966", "containedInPlace": {"@type": "AdministrativeArea", "name": "Sussex County, Delaware"}}],
         h1=("House Cleaning", "in Millsboro, DE"),
         script="Clean home, happy life.",
@@ -602,7 +639,7 @@ PAGES = [
       <h3>Cleaning services in Millsboro, DE</h3>
       <p>{A("residential-cleaning", "Recurring house cleaning")}, {A("deep-cleaning", "deep cleaning")}, {A("move-in-move-out-cleaning", "move in / move out cleaning")}, {A("post-construction-cleaning", "post-construction cleaning")} for new builds and {A("commercial-cleaning", "commercial cleaning")} for Millsboro businesses.</p>
       <h3>Nearby areas</h3>
-      <p>We also serve {AR("lewes-de", "Lewes")}, {AR("rehoboth-beach-de", "Rehoboth Beach")} and surrounding Sussex County communities.</p>''',
+      <p>We also serve {AR("lewes-de", "Lewes")}, {AR("rehoboth-beach-de", "Rehoboth Beach")}, surrounding Sussex County communities and {AR("salisbury-md", "Salisbury, MD")}.</p>''',
         checklist=[
             ("Popular in Millsboro", ["Recurring house cleaning", "Move-in cleaning for new homes", "Post-construction cleaning", "Deep cleaning", "Office &amp; retail cleaning"]),
             ("Why Millsboro chooses us", ["Licensed &amp; insured", "Eco-friendly products", "Detail-oriented, reliable team", "Satisfaction guaranteed"]),

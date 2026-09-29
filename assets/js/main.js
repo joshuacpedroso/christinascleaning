@@ -326,6 +326,14 @@
       phone.value = out;
     });
 
+    const sqft = form.elements.sqft;
+    if (sqft) {
+      sqft.addEventListener("input", () => {
+        const d = sqft.value.replace(/\D/g, "").slice(0, 6);
+        sqft.value = d ? Number(d).toLocaleString("en-US") : "";
+      });
+    }
+
     const validators = {
       name: (v) => v.trim().length >= 2,
       phone: (v) => v.replace(/\D/g, "").length >= 10,
